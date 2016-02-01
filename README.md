@@ -21,7 +21,6 @@ Rx.Observable.timer(0, 1000) // increment timer by 1 at each second
 	})
 ```
 Main goal of using Cycle.js => separating logic from effects
-
 - logic: the arrangements of your orders (functional)
 - effects: anything that changes the external world. (imperative)
 
@@ -159,8 +158,8 @@ run(main, drivers) // => if using JSbin you'll see the output on both the page a
 #### 5- Read effects from the DOM: click events
 
 Thus far, we don't have way of getting user inputs (clicks, texts and so on). To tackle this we can borrow the data flow networks terminalogies:
-* -source: input (read) effects
-* -sink: output (write) effects
+- source: input (read) effects
+- sink: output (write) effects
 
 > Lucky for us, Observables makes it really easy for us to the the clicks with: Rx.Observable.fromEvent(document, 'click')
 > Let's give it a shot, by making a mokup app that reset itself to 0 everysingle time we click on the DOM.
@@ -230,8 +229,8 @@ run(main, drivers)
 ```
 
 So now every time we click on the DOM it will go to main(DOMSource) and then we can use it. This allows us to reset the timer every single time dom is clicked.
-* You can think of new Rx.Subject() as a null value (observable) in RxJS. It has nothing happening until you assign something to it later.
-* The onNext method pushes the event to the proxy observable
+- You can think of new Rx.Subject() as a null value (observable) in RxJS. It has nothing happening until you assign something to it later.
+- The onNext method pushes the event to the proxy observable
 
 Finally, we were able to get and write from the dom.
 
@@ -377,8 +376,7 @@ Cycle.run(main, drivers)
 Sounds too generic? it does However we can specify the actual changing (behaviors). Let's say if we wanted to reset the timer on hover instead.
 That's a logic issue and therefore will have to update our main function.
 ```
-=> we'll have to also update our DOMSource with the function selectEvents
-which takes a tagname and an eventType 
+=> we'll have to also update our DOMSource with the function selectEvents which takes a tagname and an eventType 
 => Then returns an observable
 => Then we want to make sure to filter the event to match 
 ```
@@ -453,7 +451,7 @@ Cycle.run(main, drivers)
 
 #### 9- Hyperscript as our alternative to template languages
 
-To make our job earsier when creating dom elements we can create a function that return our desired outcome.
+To make our job earsier when creating dom elements, we can create a function that return our desired outcome.
 The "h" tag is introduced because of the existence of a similar function in Cycle-DOM called hyperScript which is an alternative to a template language.
 Utilizing the tag function now we can simply get the templating like in Jade in a fast and easy way.
 
@@ -725,8 +723,8 @@ Now how about http drivers and observables. Yes, Cycle does have an HTTP driver.
 
 The idea for this app is to make an http request to fetch a single piece of data from a REST server and display it on our page (DOM).
 
-```Javascipt
-/******** As of the static page here's the code *********/
+```Javascript
+/******** For the static page *********/
 
 const {button, p, h4, a, h1, div, makeDOMDriver} = CycleDOM;
 const { makeHTTPDriver } = CycleHTTPDriver;
@@ -808,7 +806,7 @@ Cycle.run(main, drivers)
 ```
 
 Sounds like a lot? It is and you will most likely get confused (like I did) if you're not thinking about the request in a structural manner.
-- The first step is outlining the four steps that are being taken,
+- The first step is outlining the four steps that are being taken
 - Figure out which task come from where (read => sources, write => sinks)
 
 
@@ -910,7 +908,7 @@ Cycle.run(main, drivers);
 
 #### 15- Model-View-Intent pattern for seperation of concerns
 
-Our former Big main function is working properly and its great. However we can start to get easily confused as our app grows including other features. Then starting to think of our app in a modular and small components becomes a good rule of thumb.
+Our former Big main function is working properly and it's great. However we can start to get easily confused as our app grows including other features. Then starting to think of our app in a modular and small components becomes a good rule of thumb.
 > And Here comes the Intent - Model - View pattern.
 
 To get a hang of it let's refactor our last BMI index code with it.
