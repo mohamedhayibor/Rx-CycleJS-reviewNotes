@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Observable Experiment</title>
+	<script scr="https://cdnjs.cloudflare.com/ajax/libs/rxjs/4.0.6/rx.all.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/6.1.19/browser.min.js"></script>
+</head>
+<body>
+	<h1>test</h1>
+	<div id="app"></div>
+	<script >
+	'use strict'
+	Rx.Observable.timer(0, 1000) // seconds incremeting each sec
+		.map( x => `Seconds elapsed ${i}`)
+		.subscribe( (text) => {
+			var container = document.querySelector("#app");
+			container.textContent = text;
+		})
+	</script>
+</body>
+</html>
