@@ -611,22 +611,14 @@ The key takeaways are:
 - Here the DOM sink is returning an Observable.
 - The observable is only returning one event (div event) `a virtual dom element`
 - (label, input, hr and h1) at this point are write effects
-
-- 0- 
-
 - Notice that instead of "Rx.Observable.of" we have "name$", we can do this because name$ itself is an observable (getting it's value from inputEv$).
 - Thus mapping it can get to our desired outcome.
-
-- 0- 
-
 - To detect the input being inputted, we need some read effects:
 - The read effects come from the DOMSource (with select we can restrict our choices)
-----------------0
 - We are importing the needed dom elements from CycleDOM
 - '.field' => the first argument for the input represent its class
 - The secret sauce of CycleJS is that there is a continuous loop between
 - write and read events, thus the name.
-
 
 > Side-note: At some point you might wondering, why do have the .startWith('') method on name$ and as Stalz eloquently put it you cannot map on emptiness, so you have to begin with something (ex: an empty string). Also, you could put there any string there you want. For instance: "world".
 
