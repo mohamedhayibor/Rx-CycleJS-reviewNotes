@@ -69,7 +69,7 @@ consoleLogEffect(sink);
 
 > From the previous example we were getting the same strings in both the console.log and the page 
 -If we wanted different outputs, we'll need to set up different sinks:
--In JS we can get that outcome by returning an object with different keys: DOM and Log
+-In JS, we can get that outcome by returning an object with different keys: DOM and Log
 
 ```Javascript
 /***********  Logic *********************/
@@ -97,7 +97,7 @@ function consoleLogEffect(msg$) {
 const sinks = main();
 
 DOMEffect(sinks.DOM) // => output on the page
-consoleLogEffect(sinks.Log) // output on the console
+consoleLogEffect(sinks.Log) // => output on the console
 ```
 
 > You can think of the sink here as a placeholder for our logic.
@@ -162,7 +162,7 @@ Thus far, we don't have way of getting user inputs (clicks, texts and so on). To
 - sink: output (write) effects
 
 > Lucky for us, Observables makes it really easy for us to the the clicks with: Rx.Observable.fromEvent(document, 'click')
-> Let's give it a shot, by making a mokup app that reset itself to 0 everysingle time we click on the DOM.
+> Let's give it a shot, by making a mokup counter app that reset itself to 0 everytime we click on the DOM.
 
 ```Javascript
 function main(DOMSource) {
@@ -228,9 +228,9 @@ run(main, drivers)
 	bProxy.imitate(b)
 ```
 
-So now every time we click on the DOM it will go to main(DOMSource) and then we can use it. This allows us to reset the timer every single time dom is clicked.
+So now every time we click on the DOM it will go to main(DOMSource) and then we can use it. This allows us to reset the timer every time the dom is clicked.
 - You can think of new Rx.Subject() as a null value (observable) in RxJS. It has nothing happening until you assign something to it later.
-- The onNext method pushes the event to the proxy observable
+- The onNext method pushes the event to the proxy observable.
 
 Finally, we were able to get and write from the dom.
 
@@ -239,7 +239,7 @@ Finally, we were able to get and write from the dom.
 
 #### 6- Generalizing run() function for more types of sources
 
-What we have done so far is pure RxJS. We achieved the goal of making our run function general. Now Cycle has a run function and we can import it with a cdn, delete our run function and replace run(main, drivers) with Cycle.run(main, drivers).
+What we have done so far is pure RxJS. We achieved the goal of making our run function general. Now CycleJS, has a run function and we can import it with a cdn, delete our run function and replace run(main, drivers) with Cycle.run(main, drivers).
 
 ```Javascript
 function main(Sources) {
@@ -373,11 +373,11 @@ Cycle.run(main, drivers)
 
 #### 8- Fine-grained control over the DOM Source
 
-Sounds too generic? it does However we can specify the actual changing (behaviors). Let's say if we wanted to reset the timer on hover instead.
+Sounds too generic? it does However we can specify the actual changing (behaviors). Let's say if we wanted to reset the timer on mouseover instead.
 That's a logic issue and therefore will have to update our main function.
 ```
 => we'll have to also update our DOMSource with the function selectEvents which takes a tagname and an eventType 
-=> Then returns an observable
+=> Then return an observable
 => Then we want to make sure to filter the event to match 
 ```
 ```Javascript
@@ -451,7 +451,7 @@ Cycle.run(main, drivers)
 
 #### 9- Hyperscript as our alternative to template languages
 
-To make our job earsier when creating dom elements, we can create a function that return our desired outcome.
+To make our job easier when creating dom elements, we can create a function that takes a (tagName, children) then returns the appropriate dom element.
 The "h" tag is introduced because of the existence of a similar function in Cycle-DOM called hyperScript which is an alternative to a template language.
 Utilizing the tag function now we can simply get the templating like in Jade in a fast and easy way.
 
@@ -610,13 +610,12 @@ The key takeaways are:
 - The observable is only returning one event (div event) `a virtual dom element`
 - (label, input, hr and h1) at this point are write effects
 - Notice that instead of "Rx.Observable.of" we have "name$", we can do this because name$ itself is an observable (getting it's value from inputEv$).
-- Thus mapping it can get to our desired outcome.
-- To detect the input being inputted, we need some read effects:
+
+To detect the input being inputted, we need some read effects:
 - The read effects come from the DOMSource (with select we can restrict our choices)
 - We are importing the needed dom elements from CycleDOM
 - '.field' => the first argument for the input represent its class
-- The secret sauce of CycleJS is that there is a continuous loop between
-- write and read events, thus the name.
+- The secret sauce of CycleJS is that there is a continuous loop between write and read events, thus the name.
 
 > Side-note: At some point you might wondering, why do have the .startWith('') method on name$ and as Stalz eloquently put it you cannot map on emptiness, so you have to begin with something (ex: an empty string). Also, you could put there any string there you want. For instance: "world".
 
@@ -652,7 +651,7 @@ Cycle.run(main, drivers);
 
 > For the first argument on the buttons, you can set up either classes or ids with the "." or "#" selectors and if you check on your dev tools you will see the exact tags you wanted.
 
-Now as our static page is set, we can tackle some interactivity but before that let's talk about the number one spoiler urge which is wanting to set the value of an observable.
+Now as our static page is set, let's talk about the number one spoiler urge which is wanting to set the value of an observable.
 
 > To resist the urge think about it in Fight Club style:
 ```
@@ -661,7 +660,7 @@ Now as our static page is set, we can tackle some interactivity but before that 
 ```
 
 Not following the rule spoils the dynamic nature of observables, you would lose the reactive pattern
-and doesn't give you seperation of concerns.
+and would not give you seperation of concerns.
 
 Our goal is to declare the future value of the counter instead:
 ```
@@ -669,14 +668,14 @@ For example,  if our counter stream: counter$ started with 10, you could view it
 10 ----> 10 -----> 10 -----> 10 -----> 10 
 ------------------> Time ------------> 
 So what you would want to do is merge the increment and decrement action into the stream
-.scan() allows us to make this type of operation with
+.scan() allows us to make this type of operation
 (also named as horizontal combinator or (past combinator))
 
 so as a dummy visual Merging example we could have:
  10 ----> (-1) ----> (-1) ----> (-1) ----> (+1) ---->
  10 ----> ( 9) ----> ( 8) ----> ( 7) ----> ( 8) ---->
 ```
-For more practice about this check out [RxMarbles](http://rxmarbles.com/).
+For more practice on this, check out [RxMarbles](http://rxmarbles.com/).
 
 ```Javascript
 /* Final Code */
@@ -719,7 +718,7 @@ Cycle.run(main, drivers);
 
 #### 13- Using Cycle.JS HTTP Driver
 
-Now how about http drivers and observables. Yes, Cycle does have an HTTP driver.
+Now how about http drivers and observables. Yes, Cycle does have a [HTTP driver](https://github.com/cyclejs/cycle-http-driver).
 
 The idea for this app is to make an http request to fetch a single piece of data from a REST server and display it on our page (DOM).
 
@@ -753,9 +752,9 @@ Cycle.run(main, drivers);
 ```
 
 Steps to accomplish under the hood:
-1. button clicked (DOM read effects) - sources
-2. request sent (http): HTTP write effect
-3. response received HTTP read effect - sources
+1. button clicked (DOM read effects) - from sources
+2. request sent: HTTP write effect
+3. response received (HTTP read effect) - from sources
 4. data display (DOM write effects)
 
 > Write effects are sinks and read effects are coming from the sources.
@@ -909,7 +908,7 @@ Cycle.run(main, drivers);
 #### 15- Model-View-Intent pattern for seperation of concerns
 
 Our former Big main function is working properly and it's great. However we can start to get easily confused as our app grows including other features. Then starting to think of our app in a modular and small components becomes a good rule of thumb.
-> And Here comes the Intent - Model - View pattern.
+> And here comes the Intent - Model - View pattern.
 
 To get a hang of it let's refactor our last BMI index code with it.
 ```Javascript
