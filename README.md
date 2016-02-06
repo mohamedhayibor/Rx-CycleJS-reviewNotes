@@ -8,7 +8,7 @@ If you have never heard of observables or streams this graph will help you under
 
 At the bottom of every section, you will find a JSBIN link so that you can mess with the code and see the effects.
 
-### Quick links
+## Quick links
 
 1. [The Cycle.js principle: separating logic from effects](#1--the-cyclejs-principle-separating-logic-from-effects)
 1. [Main function and effects functions](#2--main-function-and-effects-functions)
