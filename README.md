@@ -50,6 +50,8 @@ Thus the developer will only need to take care of the logic.
 
 [JSBIN](http://jsbin.com/xogoye/1/edit?js,output)
 
+**[⬆ back to top](#quick-links)**
+
 #### 2- Main function and effects functions
 
 > Refactoring to make the code more structural and adding a console.log effect
@@ -855,7 +857,7 @@ Explaining the reason why we are using the .switch() on response$$ would take se
 
 [JS Bin](http://jsbin.com/cimuviz/1/edit?js,output)
 
-[JS Bin wth comments](http://jsbin.com/fujoje/4/edit?js,output)
+[JS Bin with comments](http://jsbin.com/fujoje/4/edit?js,output)
 
 **[⬆ back to top](#quick-links)**
 
