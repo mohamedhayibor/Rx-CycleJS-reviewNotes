@@ -8,6 +8,26 @@ If you have never heard of observables or streams this graph will help you under
 
 At the bottom of every section, you will find a JSBIN link so that you can mess with the code and see the effects.
 
+### Quick links
+
+1. [The Cycle.js principle: separating logic from effects](#1--the-cyclejs-principle-separating-logic-from-effects)
+1. [Main function and effects functions](#2--main-function-and-effects-functions)
+1. [Customizing effects from the main function](#3--customizing-effects-from-the-main-function)
+1. [Introducing run() and driver functions](#4--introducing-run-and-driver-functions)
+1. [Read effects from the DOM: click events](#5--read-effects-from-the-dom-click-events)
+1. [Generalizing run() function for more types of sources](#6--generalizing-run-function-for-more-types-of-sources)
+1. [Making our toy driver more flexible](#7--making-our-toy-driver-more-flexible)
+1. [Fine-grained control over the DOM Source](#8--fine-grained-control-over-the-dom-source)
+1. [Hyperscript as our alternative to template languages](#9--hyperscript-as-our-alternative-to-template-languages)
+1. [From toy Driver to real DOM driver](#10--from-toy-driver-to-real-dom-driver)
+1. [Hello Wolrld! in CycleJS](#11--hello-wolrld-in-cyclejs)
+1. [An Interactive counter in Cycle.js](#12--an-interactive-counter-in-cyclejs)
+1. [Using Cycle.JS HTTP Driver](#13--using-cyclejs-http-driver)
+1. [Body-Mass Index calculator built in Cycle.js](#14--body-mass-index-calculator-built-in-cyclejs)
+1. [Model-View-Intent pattern for seperation of concerns](#15--model-view-intent-pattern-for-seperation-of-concerns)
+
+
+
 #### 1- The Cycle.js principle: separating logic from effects
 
 ```Javascript
@@ -65,6 +85,8 @@ consoleLogEffect(sink);
 
 [JS BIN](http://jsbin.com/xogoye/2/edit?js,console,output)
 
+**[⬆ back to top](#quick-links)**
+
 #### 3- Customizing effects from the main function
 
 > From the previous example we were getting the same strings in both the console.log and the page 
@@ -103,6 +125,8 @@ consoleLogEffect(sinks.Log) // => output on the console
 > You can think of the sink here as a placeholder for our logic.
 
 [JS BIN](http://jsbin.com/xogoye/3/edit?js,console,output)
+
+**[⬆ back to top](#quick-links)**
 
 #### 4- Introducing run() and driver functions
 
@@ -154,6 +178,8 @@ run(main, drivers) // => if using JSbin you'll see the output on both the page a
 > Stalz uses the variable name driver for illustration purposes: (middleware between hardware and software).
 
 [JS BIN](http://jsbin.com/xogoye/4/edit?js,console,output)
+
+**[⬆ back to top](#quick-links)**
 
 #### 5- Read effects from the DOM: click events
 
@@ -236,6 +262,7 @@ Finally, we were able to get and write from the dom.
 
 [JS BIN](http://jsbin.com/xogoye/5/edit?js,console,output)
 
+**[⬆ back to top](#quick-links)**
 
 #### 6- Generalizing run() function for more types of sources
 
@@ -289,6 +316,8 @@ function run (mainFn, drivers) {
 run(main, drivers)
 ```
 [JS BIN](http://jsbin.com/xogoye/6/edit?js,console,output)
+
+**[⬆ back to top](#quick-links)**
 
 #### 7- Making our toy driver more flexible
 
@@ -371,6 +400,8 @@ Cycle.run(main, drivers)
 ```
 [JS BIN](http://jsbin.com/xogoye/7/edit?js,console,output)
 
+**[⬆ back to top](#quick-links)**
+
 #### 8- Fine-grained control over the DOM Source
 
 Sounds too generic? it does However we can specify the actual changing (behaviors). Let's say if we wanted to reset the timer on mouseover instead.
@@ -448,6 +479,8 @@ Cycle.run(main, drivers)
 ```
 
 [JS BIN](http://jsbin.com/xogoye/8/edit?js,output)
+
+**[⬆ back to top](#quick-links)**
 
 #### 9- Hyperscript as our alternative to template languages
 
@@ -538,6 +571,8 @@ Cycle.run(main, drivers)
 ```
 [JS BIN](http://jsbin.com/xogoye/9/edit?js,output)
 
+**[⬆ back to top](#quick-links)**
+
 #### 10- From toy Driver to real DOM driver
 
 How about if we wanted to import all the drivers? Well Cycle DOM can help us in that regard, it uses the virtual-dom underneath to avoid expensive recreation of the DOM.
@@ -573,6 +608,8 @@ Cycle.run(main, drivers);
 ```
 [JS BIN](http://jsbin.com/xogoye/10/edit?js,output)
 
+**[⬆ back to top](#quick-links)**
+
 #### 11- Hello Wolrld! in CycleJS
 
 ```Javascript
@@ -604,22 +641,24 @@ Cycle.run(main, drivers);
 ```
 
 The key takeaways are:
-- The DOM driver (makeDOMDriver) is doing the heavy lifting.
-- The main always returns an object of sinks.
-- Here the DOM sink is returning an Observable.
-- The observable is only returning one event (div event) `a virtual dom element`
-- (label, input, hr and h1) at this point are write effects
-- Notice that instead of "Rx.Observable.of" we have "name$", we can do this because name$ itself is an observable (getting it's value from inputEv$).
+* The DOM driver (makeDOMDriver) is doing the heavy lifting.
+* The main always returns an object of sinks.
+* Here the DOM sink is returning an Observable.
+* The observable is only returning one event (div event) `a virtual dom element`
+* (label, input, hr and h1) at this point are write effects
+* Notice that instead of "Rx.Observable.of" we have "name$", we can do this because name$ itself is an observable (getting it's value from inputEv$).
 
-To detect the input being inputted, we need some read effects:
-- The read effects come from the DOMSource (with select we can restrict our choices)
-- We are importing the needed dom elements from CycleDOM
-- '.field' => the first argument for the input represent its class
-- The secret sauce of CycleJS is that there is a continuous loop between write and read events, thus the name.
+To detect the input, we need some read effects:
+* The read effects come from the DOMSource (with select we can restrict our choices)
+* We are importing the needed dom elements from CycleDOM
+* '.field' => the first argument for the input represent its class
+* The secret sauce of CycleJS is that there is a continuous loop between write and read events, thus the name.
 
-> Side-note: At some point you might wondering, why do have the .startWith('') method on name$ and as Stalz eloquently put it you cannot map on emptiness, so you have to begin with something (ex: an empty string). Also, you could put there any string there you want. For instance: "world".
+> Side-note: At some point you might wondering, why do have the .startWith('') method on name$ and as Stalz eloquently put it, you cannot map on emptiness, so you have to begin with something (ex: an empty string).
 
 [JS BIN](http://jsbin.com/xogoye/11/edit?js,output)
+
+**[⬆ back to top](#quick-links)**
 
 #### 12- An Interactive counter in Cycle.js
 
@@ -715,6 +754,7 @@ Cycle.run(main, drivers);
 ```
 [JS BIN](http://jsbin.com/xogoye/12/edit?js,output)
 
+**[⬆ back to top](#quick-links)**
 
 #### 13- Using Cycle.JS HTTP Driver
 
@@ -817,6 +857,8 @@ Explaining the reason why we are using the .switch() on response$$ would take se
 
 [JS Bin wth comments](http://jsbin.com/fujoje/4/edit?js,output)
 
+**[⬆ back to top](#quick-links)**
+
 #### 14- Body-Mass Index calculator built in Cycle.js
 
 The idea here is that the user would input their height and weight to get their bodymass.
@@ -905,6 +947,8 @@ Cycle.run(main, drivers);
 
 [JSBIN](http://jsbin.com/cimuviz/2/edit?js,output)
 
+**[⬆ back to top](#quick-links)**
+
 #### 15- Model-View-Intent pattern for seperation of concerns
 
 Our former Big main function is working properly and it's great. However we can start to get easily confused as our app grows including other features. Then starting to think of our app in a modular and small components becomes a good rule of thumb.
@@ -970,3 +1014,5 @@ const drivers = {
 Cycle.run(main, drivers);
 ```
 [JS Bin](http://jsbin.com/gawuna/2/edit?js,output)
+
+**[⬆ back to top](#quick-links)**
